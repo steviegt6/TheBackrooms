@@ -82,7 +82,7 @@ namespace TheBackrooms.Common.UI
 
             // Text drawing.
             Vector2 drawPos = new Vector2(Main.screenWidth / 2f, Main.screenHeight / 4f);
-            drawPos.Y -= 12f - (textSize.Y / 2f) * LineProgress;
+            drawPos.Y -= (12f * LineProgress) - (textSize.Y / 2f) * LineProgress;
             drawPos.X -= textSize.X / 2f;
 
             ChatManager.DrawColorCodedStringWithShadow(
@@ -98,7 +98,7 @@ namespace TheBackrooms.Common.UI
 
             float minusY = Main.fontMouseText.MeasureString("Y").Y;
 
-            drawPos.Y -= minusY;
+            drawPos.Y -= minusY * LineProgress;
             ChatManager.DrawColorCodedStringWithShadow(
                 Main.spriteBatch,
                 Main.fontMouseText,
@@ -110,7 +110,7 @@ namespace TheBackrooms.Common.UI
                 new Vector2(1f, LineProgress)
             );
 
-            drawPos.Y -= minusY;
+            drawPos.Y -= minusY * LineProgress;
             ChatManager.DrawColorCodedStringWithShadow(
                 Main.spriteBatch,
                 Main.fontMouseText,
@@ -128,7 +128,7 @@ namespace TheBackrooms.Common.UI
             drawPos.Y -= (textSize.Y / 2f) * LineProgress;
             drawPos.X -= textSize.X / 2f;
 
-            drawPos.Y += 16f;
+            drawPos.Y += 16f* LineProgress;
             drawPos.Y += minusY * LineProgress;
             ChatManager.DrawColorCodedStringWithShadow(
                 Main.spriteBatch,
