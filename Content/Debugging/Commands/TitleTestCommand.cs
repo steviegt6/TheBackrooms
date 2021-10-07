@@ -11,12 +11,12 @@ namespace TheBackrooms.Content.Debugging.Commands
     {
         public class TestLevel : BackroomsLevel
         {
-            public override string DisplayName => "The Backrooms: Level 0";
+            public override string DisplayName => "The Backrooms: Level 1";
 
             public override LevelDescriptors Descriptors =>
                 new LevelDescriptors("Safe", "Secure", "Minimal Entity Count");
 
-            public override LevelClass Classification => LevelClass.Zero;
+            public override LevelClass Classification => LevelClass.One;
 
             public override LevelType Type => LevelType.Normal;
         }

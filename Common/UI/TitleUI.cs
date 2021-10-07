@@ -49,6 +49,7 @@ namespace TheBackrooms.Common.UI
 
             base.Draw(spriteBatch);
             Vector2 textSize = Main.fontDeathText.MeasureString(Level.DisplayName);
+            Color color = Level.ClassificationColor();
 
             Rectangle destination = new Rectangle(
                 Main.screenWidth / 2,
@@ -58,12 +59,12 @@ namespace TheBackrooms.Common.UI
             );
 
             // Bar drawing.
-            spriteBatch.Draw(GeneratedAssets.LineMiddle, destination, Color.White);
+            spriteBatch.Draw(GeneratedAssets.LineMiddle, destination, color);
             spriteBatch.Draw(
                 GeneratedAssets.LineMiddle,
                 destination,
                 null,
-                Color.White,
+                color,
                 MathHelper.Pi,
                 new Vector2(0f, destination.Height),
                 SpriteEffects.None,
@@ -72,12 +73,12 @@ namespace TheBackrooms.Common.UI
             spriteBatch.Draw(
                 GeneratedAssets.LineEnding,
                 new Vector2(destination.X + destination.Width, destination.Y),
-                Color.White
+                color
             );
             spriteBatch.Draw(
                 GeneratedAssets.LineEnding,
                 new Vector2(destination.X - destination.Width - 2f, destination.Y),
-                Color.White
+                color
             );
 
             // Text drawing.
@@ -90,7 +91,7 @@ namespace TheBackrooms.Common.UI
                 Main.fontDeathText,
                 Level.DisplayName,
                 drawPos,
-                Color.White,
+                color,
                 0f,
                 new Vector2(0f, textSize.Y),
                 new Vector2(1f, LineProgress)
@@ -104,7 +105,7 @@ namespace TheBackrooms.Common.UI
                 Main.fontMouseText,
                 string.Format(BackroomsMod.GetTranslation("ClassType"), Level.ClassificationString()),
                 drawPos,
-                Color.White,
+                color,
                 0f,
                 new Vector2(0f, textSize.Y),
                 new Vector2(1f, LineProgress)
@@ -116,7 +117,7 @@ namespace TheBackrooms.Common.UI
                 Main.fontMouseText,
                 string.Format(BackroomsMod.GetTranslation("LevelType"), Level.TypeString()),
                 drawPos,
-                Color.White,
+                color,
                 0f,
                 new Vector2(0f, textSize.Y),
                 new Vector2(1f, LineProgress)
@@ -135,7 +136,7 @@ namespace TheBackrooms.Common.UI
                 Main.fontMouseText,
                 descriptors.One,
                 drawPos,
-                Color.White,
+                color,
                 0f,
                 Vector2.Zero,
                 new Vector2(1f, LineProgress)
@@ -147,7 +148,7 @@ namespace TheBackrooms.Common.UI
                 Main.fontMouseText,
                 descriptors.Two,
                 drawPos,
-                Color.White,
+                color,
                 0f,
                 Vector2.Zero,
                 new Vector2(1f, LineProgress)
@@ -159,7 +160,7 @@ namespace TheBackrooms.Common.UI
                 Main.fontMouseText,
                 descriptors.Three,
                 drawPos,
-                Color.White,
+                color,
                 0f,
                 Vector2.Zero,
                 new Vector2(1f, LineProgress)
