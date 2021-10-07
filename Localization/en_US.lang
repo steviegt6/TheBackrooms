@@ -1,0 +1,22 @@
+﻿VoredTranslationWhyDoYouRemoveThisTMLIHateHavingDummyEntries={0}
+
+LevelType=Level Type: {0}
+ClassType=Survival Diff. Class: {0}
+
+LevelTypes.Normal=Normal
+LevelTypes.Enigmatic=Enigmatic
+LevelTypes.SubLayer=Sub-Layer
+
+Classifications.Zero=0
+Classifications.One=1
+Classifications.Two=2
+Classifications.Three=3
+Classifications.Four=4
+Classifications.Five=5
+Classifications.Habitable=Habitable
+Classifications.DeadZone=Dead Zone
+Classifications.Pending=Pending
+Classifications.Amended=Amended
+Classifications.Omega=Omega
+Classifications.Unknown=Unknown
+Classifications.NotApplicable=N/A
