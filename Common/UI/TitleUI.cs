@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using ReLogic.Graphics;
 using Terraria;
 using Terraria.UI;
 using Terraria.UI.Chat;
@@ -18,6 +17,7 @@ namespace TheBackrooms.Common.UI
 
         public int Timer;
         public float LineProgress;
+        public float TextProgress;
         public bool Playing;
         public bool Fading;
 
@@ -28,7 +28,7 @@ namespace TheBackrooms.Common.UI
             if (!Playing)
                 return;
 
-            if (Timer >= 180)
+            if (Timer >= 300)
                 Fading = true;
 
             if (Fading)
@@ -40,6 +40,7 @@ namespace TheBackrooms.Common.UI
                 Playing = false;
 
             LineProgress = (float) Easings.EaseInOutCirc(MathHelper.Clamp(Timer / 100f, 0f, 1f));
+            TextProgress = (float) Easings.EaseInOutCirc(MathHelper.Clamp((Timer / 100f) - 1f, 0f, 1f));
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -83,7 +84,7 @@ namespace TheBackrooms.Common.UI
 
             // Text drawing.
             Vector2 drawPos = new Vector2(Main.screenWidth / 2f, Main.screenHeight / 4f);
-            drawPos.Y -= (12f * LineProgress) - (textSize.Y / 2f) * LineProgress;
+            drawPos.Y -= (12f * TextProgress) - (textSize.Y / 2f) * TextProgress;
             drawPos.X -= textSize.X / 2f;
 
             ChatManager.DrawColorCodedStringWithShadow(
@@ -94,12 +95,12 @@ namespace TheBackrooms.Common.UI
                 color,
                 0f,
                 new Vector2(0f, textSize.Y),
-                new Vector2(1f, LineProgress)
+                new Vector2(1f, TextProgress)
             );
 
             float minusY = Main.fontMouseText.MeasureString("Y").Y;
 
-            drawPos.Y -= minusY * LineProgress;
+            drawPos.Y -= minusY * TextProgress;
             ChatManager.DrawColorCodedStringWithShadow(
                 Main.spriteBatch,
                 Main.fontMouseText,
@@ -108,10 +109,10 @@ namespace TheBackrooms.Common.UI
                 color,
                 0f,
                 new Vector2(0f, textSize.Y),
-                new Vector2(1f, LineProgress)
+                new Vector2(1f, TextProgress)
             );
 
-            drawPos.Y -= minusY * LineProgress;
+            drawPos.Y -= minusY * TextProgress;
             ChatManager.DrawColorCodedStringWithShadow(
                 Main.spriteBatch,
                 Main.fontMouseText,
@@ -120,17 +121,17 @@ namespace TheBackrooms.Common.UI
                 color,
                 0f,
                 new Vector2(0f, textSize.Y),
-                new Vector2(1f, LineProgress)
+                new Vector2(1f, TextProgress)
             );
 
             // Extra descriptors.
             LevelDescriptors descriptors = Level.Descriptors;
             drawPos = new Vector2(Main.screenWidth / 2f, Main.screenHeight / 4f);
-            drawPos.Y -= (textSize.Y / 2f) * LineProgress;
+            drawPos.Y -= (textSize.Y / 2f) * TextProgress;
             drawPos.X -= textSize.X / 2f;
 
-            drawPos.Y += 16f* LineProgress;
-            drawPos.Y += minusY * LineProgress;
+            drawPos.Y += 16f * TextProgress;
+            drawPos.Y += minusY * TextProgress;
             ChatManager.DrawColorCodedStringWithShadow(
                 Main.spriteBatch,
                 Main.fontMouseText,
@@ -139,10 +140,10 @@ namespace TheBackrooms.Common.UI
                 color,
                 0f,
                 Vector2.Zero,
-                new Vector2(1f, LineProgress)
+                new Vector2(1f, TextProgress)
             );
 
-            drawPos.Y += minusY * LineProgress;
+            drawPos.Y += minusY * TextProgress;
             ChatManager.DrawColorCodedStringWithShadow(
                 Main.spriteBatch,
                 Main.fontMouseText,
@@ -151,10 +152,10 @@ namespace TheBackrooms.Common.UI
                 color,
                 0f,
                 Vector2.Zero,
-                new Vector2(1f, LineProgress)
+                new Vector2(1f, TextProgress)
             );
 
-            drawPos.Y += minusY * LineProgress;
+            drawPos.Y += minusY * TextProgress;
             ChatManager.DrawColorCodedStringWithShadow(
                 Main.spriteBatch,
                 Main.fontMouseText,
@@ -163,7 +164,7 @@ namespace TheBackrooms.Common.UI
                 color,
                 0f,
                 Vector2.Zero,
-                new Vector2(1f, LineProgress)
+                new Vector2(1f, TextProgress)
             );
         }
 
@@ -175,6 +176,7 @@ namespace TheBackrooms.Common.UI
 
         public void Reset()
         {
+            TextProgress = 0f;
             LineProgress = 0f;
             Timer = 0;
         }
