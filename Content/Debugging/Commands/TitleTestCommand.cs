@@ -27,7 +27,7 @@ namespace TheBackrooms.Content.Debugging.Commands
 
         public override void Action(CommandCaller caller, string input, string[] args)
         {
-            BackroomsMod.Instance.InterfaceRepository.GetState<TitleUI>().SetLevel(new TestLevel());
+            BackroomsMod.Instance.InterfaceRepository.GetState<TitleUI>().FromLevel(new TestLevel());
 
             if (!BackroomsMod.Instance.InterfaceRepository.Enabled<TitleUI>())
                 BackroomsMod.Instance.InterfaceRepository.ToggleState<TitleUI>();

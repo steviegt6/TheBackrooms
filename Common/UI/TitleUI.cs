@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.UI;
@@ -13,7 +14,7 @@ namespace TheBackrooms.Common.UI
     // This is simply a container for BackroomsLevel title displays.
     public class TitleUI : UIState
     {
-        public BackroomsLevel Level { get; protected set; }
+        public Title Title { get; protected set; }
 
         public int Timer;
         public float LineProgress;
@@ -40,7 +41,7 @@ namespace TheBackrooms.Common.UI
                 Playing = false;
 
             LineProgress = (float) Easings.EaseInOutCirc(MathHelper.Clamp(Timer / 100f, 0f, 1f));
-            TextProgress = (float) Easings.EaseInOutCirc(MathHelper.Clamp((Timer / 100f) - 1f, 0f, 1f));
+            TextProgress = (float) Easings.EaseInOutCirc(MathHelper.Clamp(Timer / 100f - 1f, 0f, 1f));
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -49,17 +50,20 @@ namespace TheBackrooms.Common.UI
                 return;
 
             base.Draw(spriteBatch);
-            Vector2 textSize = Main.fontDeathText.MeasureString(Level.DisplayName);
-            Color color = Level.ClassificationColor();
+            Vector2 textSize = Main.fontDeathText.MeasureString(Title.Text);
+            Color color = Title.TextColor;
+            float mouseFontHeight = Main.fontMouseText.MeasureString("Y").Y;
+
+            #region Bar
 
             Rectangle destination = new Rectangle(
                 Main.screenWidth / 2,
                 Main.screenHeight / 4,
-                (int) (LineProgress * textSize.X / 2f),
+                (int)(LineProgress * textSize.X / 2f),
                 6
             );
 
-            // Bar drawing.
+            // Main bar.
             spriteBatch.Draw(GeneratedAssets.LineMiddle, destination, color);
             spriteBatch.Draw(
                 GeneratedAssets.LineMiddle,
@@ -71,6 +75,8 @@ namespace TheBackrooms.Common.UI
                 SpriteEffects.None,
                 0f
             );
+
+            // Endings of the bar.
             spriteBatch.Draw(
                 GeneratedAssets.LineEnding,
                 new Vector2(destination.X + destination.Width, destination.Y),
@@ -82,15 +88,19 @@ namespace TheBackrooms.Common.UI
                 color
             );
 
+            #endregion
+
             // Text drawing.
             Vector2 drawPos = new Vector2(Main.screenWidth / 2f, Main.screenHeight / 4f);
-            drawPos.Y -= (12f * TextProgress) - (textSize.Y / 2f) * TextProgress;
+            drawPos.Y -= 12f * TextProgress - textSize.Y / 2f * TextProgress;
             drawPos.X -= textSize.X / 2f;
+
+            #region Title
 
             ChatManager.DrawColorCodedStringWithShadow(
                 Main.spriteBatch,
                 Main.fontDeathText,
-                Level.DisplayName,
+                Title.Text,
                 drawPos,
                 color,
                 0f,
@@ -98,79 +108,86 @@ namespace TheBackrooms.Common.UI
                 new Vector2(1f, TextProgress)
             );
 
-            float minusY = Main.fontMouseText.MeasureString("Y").Y;
+            #endregion
 
-            drawPos.Y -= minusY * TextProgress;
-            ChatManager.DrawColorCodedStringWithShadow(
-                Main.spriteBatch,
-                Main.fontMouseText,
-                string.Format(BackroomsMod.GetTranslation("ClassType"), Level.ClassificationString()),
-                drawPos,
-                color,
-                0f,
-                new Vector2(0f, textSize.Y),
-                new Vector2(1f, TextProgress)
-            );
 
-            drawPos.Y -= minusY * TextProgress;
-            ChatManager.DrawColorCodedStringWithShadow(
-                Main.spriteBatch,
-                Main.fontMouseText,
-                string.Format(BackroomsMod.GetTranslation("LevelType"), Level.TypeString()),
-                drawPos,
-                color,
-                0f,
-                new Vector2(0f, textSize.Y),
-                new Vector2(1f, TextProgress)
-            );
+            #region Above Text
 
-            // Extra descriptors.
-            LevelDescriptors descriptors = Level.Descriptors;
+            foreach (string above in Title.AboveInfo)
+            {
+                // Scaling offset
+                drawPos.Y -= mouseFontHeight * TextProgress;
+
+                // Render text with squished scale and position offset
+                ChatManager.DrawColorCodedStringWithShadow(
+                    Main.spriteBatch,
+                    Main.fontMouseText,
+                    above,
+                    drawPos,
+                    color,
+                    0f,
+                    new Vector2(0f, textSize.Y),
+                    new Vector2(1f, TextProgress)
+                );
+            }
+
+            #endregion
+
+            #region Below Text
+
+            // Initial offsets.
+
+            // 1. Find constant relative text position.
             drawPos = new Vector2(Main.screenWidth / 2f, Main.screenHeight / 4f);
-            drawPos.Y -= (textSize.Y / 2f) * TextProgress;
+
+            // 2. Offset y-axis by half-size, scale with text progress/
+            drawPos.Y -= textSize.Y / 2f * TextProgress;
+
+            // 3. Offset x-axis by half-size, no scaling.
             drawPos.X -= textSize.X / 2f;
 
+            // 4. Offset of 16 pixels scaled by text progress. Arbitrary.
             drawPos.Y += 16f * TextProgress;
-            drawPos.Y += minusY * TextProgress;
-            ChatManager.DrawColorCodedStringWithShadow(
-                Main.spriteBatch,
-                Main.fontMouseText,
-                descriptors.One,
-                drawPos,
-                color,
-                0f,
-                Vector2.Zero,
-                new Vector2(1f, TextProgress)
-            );
 
-            drawPos.Y += minusY * TextProgress;
-            ChatManager.DrawColorCodedStringWithShadow(
-                Main.spriteBatch,
-                Main.fontMouseText,
-                descriptors.Two,
-                drawPos,
-                color,
-                0f,
-                Vector2.Zero,
-                new Vector2(1f, TextProgress)
-            );
+            foreach (string below in Title.BelowInfo)
+            {
+                // Offset by text size (scaled).
+                drawPos.Y += mouseFontHeight * TextProgress;
 
-            drawPos.Y += minusY * TextProgress;
-            ChatManager.DrawColorCodedStringWithShadow(
-                Main.spriteBatch,
-                Main.fontMouseText,
-                descriptors.Three,
-                drawPos,
-                color,
-                0f,
-                Vector2.Zero,
-                new Vector2(1f, TextProgress)
-            );
+                // Draw string.
+                ChatManager.DrawColorCodedStringWithShadow(
+                    Main.spriteBatch,
+                    Main.fontMouseText,
+                    below,
+                    drawPos,
+                    color,
+                    0f,
+                    Vector2.Zero,
+                    new Vector2(1f, TextProgress)
+                );
+            }
+
+            #endregion
         }
 
-        public void SetLevel(BackroomsLevel level)
+        public void FromLevel(BackroomsLevel level) => SetTitle(new Title(
+            level.DisplayName,
+            new List<string>
+            {
+                level.ClassificationString(),
+                level.TypeString()
+            },
+            new List<string>
+            {
+                level.Descriptors.One,
+                level.Descriptors.Two,
+                level.Descriptors.Three
+            }, level.ClassificationColor()
+        ));
+
+        public void SetTitle(Title title)
         {
-            Level = level;
+            Title = title;
             PlayAnimation();
         }
 

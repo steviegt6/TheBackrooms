@@ -14,9 +14,15 @@ namespace TheBackrooms.Core.ContentBases
 
         public abstract LevelDescriptors Descriptors { get; }
 
-        public virtual string TypeString() => BackroomsMod.GetTranslation("LevelTypes." + Type);
+        public virtual string TypeString() => string.Format(
+            BackroomsMod.GetTranslation("LevelType"),
+            BackroomsMod.GetTranslation("LevelTypes." + Type)
+        );
 
-        public virtual string ClassificationString() => BackroomsMod.GetTranslation("Classifications." + Classification);
+        public virtual string ClassificationString() => string.Format(
+            BackroomsMod.GetTranslation("ClassType"),
+            BackroomsMod.GetTranslation("Classifications." + Classification)
+        );
 
         public virtual Color ClassificationColor()
         {
