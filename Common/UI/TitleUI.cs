@@ -16,7 +16,7 @@ namespace TheBackrooms.Common.UI
     {
         public Title Title { get; protected set; }
 
-        public int Timer;
+        public float Timer;
         public float LineProgress;
         public float TextProgress;
         public bool Playing;
@@ -33,7 +33,7 @@ namespace TheBackrooms.Common.UI
                 Fading = true;
 
             if (Fading)
-                Timer--;
+                Timer -= 1.75f;
             else
                 Timer++;
 
@@ -109,7 +109,6 @@ namespace TheBackrooms.Common.UI
             );
 
             #endregion
-
 
             #region Above Text
 
