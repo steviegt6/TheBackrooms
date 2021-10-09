@@ -11,6 +11,9 @@ namespace TheBackrooms.Core.Assets
 
         public static void GenerateAssets()
         {
+            if (Main.dedServ)
+                return;
+
             Color w = Color.White;
             Color b = Color.Black;
             Color t = Color.Transparent;

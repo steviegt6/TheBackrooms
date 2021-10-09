@@ -15,8 +15,16 @@ namespace TheBackrooms.Core.Loading
             Assembly = assembly;
         }
 
-        public IEnumerable<Type> OfType<T>(bool ctorNoParams = true) => Assembly.GetTypes()
-            .Where(x => !x.IsAbstract && (!ctorNoParams || x.GetConstructor(Type.EmptyTypes) != null));
+        public IEnumerable<Type> OfType<T>(bool ctorNoParams = true) => Assembly
+            .GetTypes()
+            .Where(x =>
+                !x.IsAbstract
+                && (
+                    !ctorNoParams
+                    || x.GetConstructor(Type.EmptyTypes) != null
+                )
+                && x == typeof(T)
+            );
 
         public IEnumerable<T> OfInstances<T>(bool ctorNoParams = true) =>
             OfType<T>(ctorNoParams).Select(x => (T) Activator.CreateInstance(x));
