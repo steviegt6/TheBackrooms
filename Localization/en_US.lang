@@ -20,3 +20,9 @@ Classifications.Amended=Amended
 Classifications.Omega=Omega
 Classifications.Unknown=Unknown
 Classifications.NotApplicable=N/A
+
+BackroomsName.TutorialLevel=Level 1: Tutorial Level
+
+BackroomsDescriptors.Safe=Safe
+BackroomsDescriptors.Secure=Secure
+BackroomsDescriptors.MinimalEntityCount=Minimal Entity Count

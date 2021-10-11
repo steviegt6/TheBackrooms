@@ -16,10 +16,16 @@
   <ItemGroup>
     <Folder Include="Common\UI\" />
     <Folder Include="Content\Debugging\Commands\" />
+    <Folder Include="Content\Backrooms\" />
+    <Folder Include="Content\Players\" />
     <Folder Include="Core\ContentBases\" />
     <Folder Include="Core\Assets\" />
     <Folder Include="Core\Loading\" />
-    <Folder Include="Core\SubWorlds\" />
     <Folder Include="Core\Utilities\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="SubworldLibrary">
+      <HintPath>lib\SubworldLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
 </Project>

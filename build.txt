@@ -1,3 +1,5 @@
 displayName = The Backrooms - You've Been Here Before
 author = Tomat
 version = 1.0.0
+sortAfter = SubworldLibrary
+modReferences = SubworldLibrary
